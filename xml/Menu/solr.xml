@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/contact/search/solr</path>
+    <page_callback>CRM_Solr_Page_SolrSearch</page_callback>
+    <title>SolrSearch</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
