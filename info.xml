@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<extension key="org.civicrm.search.solr" type="module">
+<extension key="org.eff.search.solr" type="module">
   <file>solr</file>
-  <name>FIXME</name>
-  <description>FIXME</description>
-  <license>FIXME</license>
+  <name>Solr Search</name>
+  <description>Use Apache Solr as search engine</description>
+  <license>AGPL3</license>
   <maintainer>
-    <author>FIXME</author>
-    <email>FIXME@example.com</email>
+    <author>mark burdett</author>
+    <email>mfb@eff.org</email>
   </maintainer>
   <releaseDate>2013-05-01</releaseDate>
   <version>1.0</version>
