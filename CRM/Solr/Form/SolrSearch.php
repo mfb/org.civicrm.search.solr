@@ -1,21 +1,31 @@
 <?php
 
-require_once 'CRM/Core/Page.php';
+require_once 'CRM/Core/Form.php';
 require_once 'SolrPhpClient/Apache/Solr/Service.php';
 
-class CRM_Solr_Page_SolrSearch extends CRM_Core_Page {
-  function run() {
-    CRM_Utils_System::setTitle(ts('SolrSearch'));
+class CRM_Solr_Form_SolrSearch extends CRM_Core_Form {
+  public function buildQuickForm() {
+    $this->add('text',
+      'search',
+      ts('Search terms')
+    );
+    $this->addButtons(array(
+      array(
+        'type' => 'submit',
+        'name' => 'Search',
+        'isDefault' => TRUE,
+      ),
+    ));
+  }
 
-    $this->assign('currentTime', date('Y-m-d H:i:s'));
-
+  public function postProcess( ) {
+    $values = $this->exportValues();
     $solr = new Apache_Solr_Service('localhost', 8080, '/solr');
-
-    if (!empty($_GET['search']) && $solr->ping()) {
+    if ($values['search'] && $solr->ping()) {
       $offset = 0;
       $limit = 10;
       $params = array();
-      $response = $solr->search('description:' . $solr->escape($_GET['search']), $offset, $limit, $params);
+      $response = $solr->search('description:' . $solr->escape($values['search']), $offset, $limit, $params);
       foreach ($response->response->docs as $doc) {
         $id = str_replace('contact:', '', $doc->getField('id'));
         $id = $id['value'];
@@ -23,8 +33,6 @@ class CRM_Solr_Page_SolrSearch extends CRM_Core_Page {
         $title = $title['value'];
         $results .= '<li><a href="/civicrm/contact/view?reset=1&cid=' . $id . '">' . $title . '</a></li>';
       }
-      $this->assign('results', $results);
-
 // Some code to inject contacts into Solr:
 //      $sql = 'SELECT id FROM civicrm_contact LIMIT 2';
 //      $dao = CRM_Core_DAO::executeQuery($sql);
@@ -47,8 +55,7 @@ class CRM_Solr_Page_SolrSearch extends CRM_Core_Page {
 //      $solr->commit();
 //      $solr->optimize();
     }
-    $this->assign('debugMessage', $debugMessage);
-    parent::run();
+    CRM_Utils_System::setTitle(ts('Solr Search'));
+    $this->assign('results', $results);
   }
 }
-
