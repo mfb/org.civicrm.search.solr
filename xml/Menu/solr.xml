@@ -6,4 +6,11 @@
     <title>SolrSearch</title>
     <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/solr</path>
+    <title>Solr Settings</title>
+    <page_callback>CRM_Admin_Form_Setting_Solr</page_callback>
+    <adminGroup>System Settings</adminGroup>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
 </menu>
